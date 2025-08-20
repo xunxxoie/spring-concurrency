@@ -2,6 +2,7 @@ package cocurrency.joonseo.registration.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +20,17 @@ public class Registration {
 
     @Column(nullable = false)
     private Long courseId;
+
+    @Builder
+    private Registration(Long studentId, Long courseId) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+    }
+
+    public static Registration create(Long studentId, Long courseId) {
+        return Registration.builder()
+                .studentId(studentId)
+                .courseId(courseId)
+                .build();
+    }
 }

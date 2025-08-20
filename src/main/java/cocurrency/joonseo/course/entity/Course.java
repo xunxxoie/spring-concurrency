@@ -2,6 +2,7 @@ package cocurrency.joonseo.course.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,5 +19,26 @@ public class Course {
     private String name;
 
     @Column(nullable = false)
-    private Long capacity;
+    private long capacity;
+
+    @Builder
+    private Course(String name, Long capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    public static Course create(String name, Long capacity) {
+        return Course.builder()
+                .name(name)
+                .capacity(capacity)
+                .build();
+    }
+
+    public boolean decreaseCapacity() {
+        if(capacity <= 0){
+            return false;
+        }
+        this.capacity -= 1;
+        return true;
+    }
 }
