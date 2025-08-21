@@ -110,7 +110,7 @@ class RegistrationServiceTest {
     @DisplayName("멀티 스레드 환경에서 메소드 래밸에 synchronized을 적용하면, 데이터 정합성이 깨진다.")
     void concurrencyTestWithSynchronizedMethod() throws InterruptedException {
         //given
-        long courseId =1L;
+        long courseId = 1L;
 
         int maxThread = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(maxThread);
@@ -137,5 +137,38 @@ class RegistrationServiceTest {
         //then
         assertThat(course.getCapacity()).isNotZero();
         assertThat(registrationSize).isEqualTo(maxThread);
+    }
+
+    @Test
+    @DisplayName("싱글스레드 처리 테스트")
+    void singleThreadTest() throws InterruptedException {
+        //given
+        long courseId = 1L;
+
+        int maxThread = 1;
+        ExecutorService executorService = Executors.newFixedThreadPool(maxThread);
+        CountDownLatch countDownLatch = new CountDownLatch(100);
+
+        //when
+        for(int i = 0; i < 100; i++){
+            final long studentId = i + 1L;
+            executorService.execute(() -> {
+                try{
+                    registrationService.registerCourseWithSynchronize(studentId, courseId);
+                }finally {
+                    countDownLatch.countDown();
+                }
+            });
+        }
+        countDownLatch.await();
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("course not found"));
+
+        long registrationSize = registrationRepository.count();
+
+        //then
+        assertThat(course.getCapacity()).isZero();
+        assertThat(registrationSize).isEqualTo(100);
     }
 }
