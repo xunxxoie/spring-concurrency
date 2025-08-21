@@ -34,11 +34,10 @@ public class Course {
                 .build();
     }
 
-    public boolean decreaseCapacity() {
+    public void decreaseCapacity() {
         if(capacity <= 0){
-            return false;
+            return;
         }
         this.capacity -= 1;
-        return true;
     }
 }

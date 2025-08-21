@@ -4,7 +4,6 @@ import cocurrency.joonseo.course.entity.Course;
 import cocurrency.joonseo.course.repository.CourseRepository;
 import cocurrency.joonseo.registration.entity.Registration;
 import cocurrency.joonseo.registration.repository.RegistrationRepository;
-import cocurrency.joonseo.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,19 @@ public class RegistrationService {
     private final RegistrationRepository registrationRepository;
 
     @Transactional
-    public void registerCourse(Long studentId, Long courseId) {
+    public void registerCourseWithoutSynchronize(Long studentId, Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("course not found"));
+
+        course.decreaseCapacity();
+
+        Registration registration = Registration.create(studentId, courseId);
+
+        registrationRepository.save(registration);
+    }
+
+    @Transactional
+    public synchronized void registerCourseWithSynchronize(Long studentId, Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("course not found"));
 
