@@ -1,4 +1,4 @@
-package cocurrency.joonseo;
+package concurrency.joonseo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

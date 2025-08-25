@@ -1,4 +1,4 @@
-package cocurrency.joonseo.registration.entity;
+package concurrency.joonseo.registration.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

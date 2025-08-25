@@ -1,8 +1,8 @@
-package cocurrency.joonseo.registration.service;
+package concurrency.joonseo.registration.service;
 
-import cocurrency.joonseo.course.entity.Course;
-import cocurrency.joonseo.course.repository.CourseRepository;
-import cocurrency.joonseo.registration.repository.RegistrationRepository;
+import concurrency.joonseo.course.entity.Course;
+import concurrency.joonseo.course.repository.CourseRepository;
+import concurrency.joonseo.registration.repository.RegistrationRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class RegistrationServiceTest {
+class RegistrationConcurrencyTest {
 
     @Autowired
     private RegistrationService registrationService;
